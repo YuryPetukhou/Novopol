@@ -1,4 +1,4 @@
-package lv.javaguru.novopol.logic.dal;
+package lv.javaguru.novopol.dal;
 
 import java.sql.Array;
 import java.sql.Blob;
