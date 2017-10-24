@@ -35,30 +35,30 @@ public class DBConnectionPool {
 	public static final String INITIAL_CONNECTIONS = "server.initial_connections";
 	public static final String MAX_CONNECTIONS = "server.max_connections";
 	public static final String WAIT_IF_BUSY = "server.wait_if_busy";
-	
-	
+
 	private String driverName;
 	//
 	private String url;
-	// 
+	//
 	private String username;
-	// 
+	//
 	private String password;
-	// 
+	//
 	private int poolSize;
-	
-	// 
+
+	//
 	private static BlockingQueue<Connection> connectionQueue;
-	// 
+	//
 	private static BlockingQueue<Connection> givenAwayConQueue;
 	private static DBConnectionPool instance;
 
-	// 
-	private DBConnectionPool() throws ClassNotFoundException, SQLException {
+	//
+	private DBConnectionPool() {
 		ConfigurationManager manager = ConfigurationManager.getInstance();
 		this.driverName = manager.getProperty(DRIVER);
 		this.url = manager.getProperty(URL);
-		this.username = manager.getProperty(LOGIN);;
+		this.username = manager.getProperty(LOGIN);
+		;
 		this.password = manager.getProperty(PASSWORD);
 		try {
 			this.poolSize = Integer.parseInt(manager.getProperty(POOL_SIZE));
@@ -68,9 +68,9 @@ public class DBConnectionPool {
 		initPoolData();
 	}
 
-	private static Object lock=new Object();
+	private static Object lock = new Object();
 
-	public static DBConnectionPool getInstance() throws ClassNotFoundException, SQLException {
+	public static DBConnectionPool getInstance() {
 		if (instance == null) {
 			synchronized (lock) {
 				if (instance == null) {
@@ -82,10 +82,11 @@ public class DBConnectionPool {
 	}
 
 	// Инициализация пула
-	private void initPoolData() throws ClassNotFoundException, SQLException {
+	private void initPoolData() {
 		// Установка локали по умолчанию
 		Locale.setDefault(Locale.ENGLISH);
-		
+
+		try {
 			// Регистрация драйвера
 			Class.forName(driverName);
 			// Создание экзмепляров очередей соединений
@@ -93,72 +94,97 @@ public class DBConnectionPool {
 			connectionQueue = new ArrayBlockingQueue<Connection>(poolSize);
 			// Наполенение очереди свободных соединений
 			for (int i = 0; i < poolSize; i++) {
-				Connection connection = DriverManager.getConnection(url,
-						username, password);
-				
-				PooledConnection pooledConnection = new PooledConnection(
-						connection);
+				Connection connection = DriverManager.getConnection(url, username, password);
+
+				PooledConnection pooledConnection = new PooledConnection(connection);
 				connectionQueue.add(pooledConnection);
 			}
-		 
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
 
 	}
-	
+
 	// Освобождение ресурсов пула
-	public void dispose() throws SQLException {
+	public void dispose() {
 		clearConnectionQueue();
 	}
 
-	private void clearConnectionQueue() throws SQLException {
+	private void clearConnectionQueue() {
 		closeConnectionQueue(givenAwayConQueue);
 		closeConnectionQueue(connectionQueue);
 
 	}
 
-	private void closeConnectionQueue(BlockingQueue<Connection> queue)
-			throws SQLException {
+	private void closeConnectionQueue(BlockingQueue<Connection> queue) {
 		Connection connection;
-		while ((connection = queue.poll()) != null) {
-			if (!connection.getAutoCommit()) {
-				connection.commit();
+
+		try {
+			while ((connection = queue.poll()) != null) {
+				if (!connection.getAutoCommit()) {
+					connection.commit();
+				}
 			}
 			((PooledConnection) connection).reallyClose();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
 		}
 	}
-	
+
 	// Получение соединения
-	public Connection getConnection() throws InterruptedException {
+	public Connection getConnection() {
 		Connection connection = null;
+
 		
+		try {
 			// Получение соединения из очереди свободных соединений
 			connection = connectionQueue.take();
 			// Добавление соединения в очередь занятых соединений
 			givenAwayConQueue.add(connection);
-		
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+
+
 		return connection;
 
 	}
-	
+
 	// Закрытие соединения (вместе с запросом и ответом)
-	public void closeConnection(Connection connection, Statement statement,
-			ResultSet resultSet) throws SQLException {
-		
+	public void closeConnection(Connection connection, Statement statement, ResultSet resultSet) {
+
+		try {
 			connection.close();
 			statement.close();
 			resultSet.close();
-		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
 	}
 
 	// Закрытие соединения (вместе с запросом)
-	public void closeConnection(Connection connection, Statement statement) throws SQLException {
-		
+	public void closeConnection(Connection connection, Statement statement) {
+
+		try {
 			connection.close();
 			statement.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new DBException(e);
 		}
 
-	
+	}
 
-	// Класс соединения в пуле на основе стандартного БД-соединения 
+	// Класс соединения в пуле на основе стандартного БД-соединения
 	// Переопределен только конструктор и метод закрытия соединения
 	// Добавлен метод "реального закрытия" соединения
 	private class PooledConnection implements Connection {
@@ -169,7 +195,7 @@ public class DBConnectionPool {
 			this.connection = connection;
 			this.connection.setAutoCommit(true);
 		}
-		
+
 		// "Реальное закрытие" соединения (вызывается при очистке пула)
 		public void reallyClose() throws SQLException {
 			connection.close();
@@ -192,27 +218,26 @@ public class DBConnectionPool {
 		public void clearWarnings() throws SQLException {
 			connection.clearWarnings();
 		}
+
 		// Закрытие соединения
 		public void close() throws SQLException {
-			 // Проверка, не закрыто ли соединение
+			// Проверка, не закрыто ли соединение
 			if (connection.isClosed()) {
 				throw new SQLException("Attempting to close closed connection");
 			}
-			 // Снятие режима только для чтения
+			// Снятие режима только для чтения
 			if (connection.isReadOnly()) {
 				connection.setReadOnly(false);
 			}
-			 // Попытка удаления соединения из очереди занятых соединений
-			 // В случае неудачи - выброс исключения
+			// Попытка удаления соединения из очереди занятых соединений
+			// В случае неудачи - выброс исключения
 			if (!givenAwayConQueue.remove(this)) {
-				throw new SQLException(
-						"Deleting connection from the givens away pool");
+				throw new SQLException("Deleting connection from the givens away pool");
 			}
-			 // Попытка возвращения соединения в очередь свободных соединений
-			 // В случае неудачи - выброс исключения
+			// Попытка возвращения соединения в очередь свободных соединений
+			// В случае неудачи - выброс исключения
 			if (!connectionQueue.offer(this)) {
-				throw new SQLException(
-						"Error allocating connection in the pool.");
+				throw new SQLException("Error allocating connection in the pool.");
 			}
 		}
 
@@ -221,8 +246,7 @@ public class DBConnectionPool {
 
 		}
 
-		public Array createArrayOf(String typeName, Object[] elements)
-				throws SQLException {
+		public Array createArrayOf(String typeName, Object[] elements) throws SQLException {
 			return connection.createArrayOf(typeName, elements);
 		}
 
@@ -246,21 +270,16 @@ public class DBConnectionPool {
 			return connection.createStatement();
 		}
 
-		public Statement createStatement(int resultSetType,
-				int resultSetConcurrency) throws SQLException {
-			return connection.createStatement(resultSetType,
-					resultSetConcurrency);
+		public Statement createStatement(int resultSetType, int resultSetConcurrency) throws SQLException {
+			return connection.createStatement(resultSetType, resultSetConcurrency);
 		}
 
-		public Statement createStatement(int resultSetType,
-				int resultSetConcurrency, int resultSetHoldability)
+		public Statement createStatement(int resultSetType, int resultSetConcurrency, int resultSetHoldability)
 				throws SQLException {
-			return connection.createStatement(resultSetType,
-					resultSetConcurrency, resultSetHoldability);
+			return connection.createStatement(resultSetType, resultSetConcurrency, resultSetHoldability);
 		}
 
-		public Struct createStruct(String typeName, Object[] attributes)
-				throws SQLException {
+		public Struct createStruct(String typeName, Object[] attributes) throws SQLException {
 			return connection.createStruct(typeName, attributes);
 		}
 
@@ -328,55 +347,44 @@ public class DBConnectionPool {
 			return connection.prepareCall(sql);
 		}
 
-		public CallableStatement prepareCall(String sql, int resultSetType,
-				int resultSetConcurrency) throws SQLException {
-			return connection.prepareCall(sql, resultSetType,
-					resultSetConcurrency);
+		public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency)
+				throws SQLException {
+			return connection.prepareCall(sql, resultSetType, resultSetConcurrency);
 		}
 
-		public CallableStatement prepareCall(String sql, int resultSetType,
-				int resultSetConcurrency, int resultSetHoldability)
-				throws SQLException {
-			return connection.prepareCall(sql, resultSetType,
-					resultSetConcurrency, resultSetHoldability);
+		public CallableStatement prepareCall(String sql, int resultSetType, int resultSetConcurrency,
+				int resultSetHoldability) throws SQLException {
+			return connection.prepareCall(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
 		}
 
-		public PreparedStatement prepareStatement(String sql)
-				throws SQLException {
+		public PreparedStatement prepareStatement(String sql) throws SQLException {
 			return connection.prepareStatement(sql);
 		}
 
-		public PreparedStatement prepareStatement(String sql,
-				int autoGeneratedKeys) throws SQLException {
+		public PreparedStatement prepareStatement(String sql, int autoGeneratedKeys) throws SQLException {
 			return connection.prepareStatement(sql, autoGeneratedKeys);
 		}
 
-		public PreparedStatement prepareStatement(String sql,
-				int[] columnIndexes) throws SQLException {
+		public PreparedStatement prepareStatement(String sql, int[] columnIndexes) throws SQLException {
 
 			return connection.prepareStatement(sql, columnIndexes);
 		}
 
-		public PreparedStatement prepareStatement(String sql,
-				String[] columnNames) throws SQLException {
+		public PreparedStatement prepareStatement(String sql, String[] columnNames) throws SQLException {
 
 			return connection.prepareStatement(sql, columnNames);
 		}
 
-		public PreparedStatement prepareStatement(String sql,
-				int resultSetType, int resultSetConcurrency)
+		public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
 				throws SQLException {
 
-			return connection.prepareStatement(sql, resultSetType,
-					resultSetConcurrency);
+			return connection.prepareStatement(sql, resultSetType, resultSetConcurrency);
 		}
 
-		public PreparedStatement prepareStatement(String sql,
-				int resultSetType, int resultSetConcurrency,
+		public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency,
 				int resultSetHoldability) throws SQLException {
 
-			return connection.prepareStatement(sql, resultSetType,
-					resultSetConcurrency, resultSetHoldability);
+			return connection.prepareStatement(sql, resultSetType, resultSetConcurrency, resultSetHoldability);
 		}
 
 		public void releaseSavepoint(Savepoint savepoint) throws SQLException {
@@ -404,14 +412,12 @@ public class DBConnectionPool {
 
 		}
 
-		public void setClientInfo(Properties properties)
-				throws SQLClientInfoException {
+		public void setClientInfo(Properties properties) throws SQLClientInfoException {
 			connection.setClientInfo(properties);
 
 		}
 
-		public void setClientInfo(String name, String value)
-				throws SQLClientInfoException {
+		public void setClientInfo(String name, String value) throws SQLClientInfoException {
 			connection.setClientInfo(name, value);
 
 		}
@@ -421,8 +427,7 @@ public class DBConnectionPool {
 
 		}
 
-		public void setNetworkTimeout(Executor executor, int milliseconds)
-				throws SQLException {
+		public void setNetworkTimeout(Executor executor, int milliseconds) throws SQLException {
 			connection.setNetworkTimeout(executor, milliseconds);
 
 		}
@@ -455,5 +460,5 @@ public class DBConnectionPool {
 
 		}
 	}
-	
+
 }
