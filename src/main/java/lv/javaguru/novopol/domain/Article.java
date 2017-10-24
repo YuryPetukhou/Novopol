@@ -8,6 +8,7 @@ public class Article extends Entity {
 	private String header;
 	private String author;
 	private String summary;
+	private String source;
 	private LocalDateTime postDate;
 	private List<String> keywords;
 	
@@ -107,5 +108,13 @@ public class Article extends Entity {
 	}
 	public void setKeywords(List<String> keywords) {
 		this.keywords = keywords;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
 	}
 }

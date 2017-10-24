@@ -9,6 +9,7 @@ public class News extends Entity {
 	private String header;
 	private String author;
 	private String summary;
+	private String source;
 	private LocalDateTime postDate;
 	private List<String> keywords;
 	
@@ -105,6 +106,12 @@ public class News extends Entity {
 	}
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 }
