@@ -3,4 +3,23 @@
   <groupId>lv.javaguru</groupId>
   <artifactId>novopol</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+<dependency>
+    <groupId>postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>9.1-901-1.jdbc4</version>
+</dependency>
+
+  
+  </dependencies>
+  <dependencyManagement>
+  	<dependencies>
+  		<dependency>
+  			<groupId>postgresql</groupId>
+  			<artifactId>postgresql</artifactId>
+  			<version>9.3-1102.jdbc41</version>
+  		</dependency>
+  	</dependencies>
+  </dependencyManagement>
 </project>
