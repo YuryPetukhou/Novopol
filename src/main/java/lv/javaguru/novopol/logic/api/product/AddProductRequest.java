@@ -1,6 +1,5 @@
 package lv.javaguru.novopol.logic.api.product;
 
-import lv.javaguru.novopol.domain.News;
 import lv.javaguru.novopol.domain.Product;
 
 public class AddProductRequest {

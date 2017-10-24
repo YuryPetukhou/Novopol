@@ -1,5 +1,8 @@
 package lv.javaguru.novopol.logic.service.article;
 
-public interface AddArticleService {
+import lv.javaguru.novopol.logic.api.article.AddArticleRequest;
+import lv.javaguru.novopol.logic.api.article.AddArticleResponse;
 
+public interface AddArticleService {
+	AddArticleResponse addArticle (AddArticleRequest request);
 }

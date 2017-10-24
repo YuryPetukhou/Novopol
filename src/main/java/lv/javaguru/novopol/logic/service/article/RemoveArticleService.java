@@ -1,5 +1,8 @@
 package lv.javaguru.novopol.logic.service.article;
 
-public interface RemoveArticleService {
+import lv.javaguru.novopol.logic.api.article.RemoveArticleRequest;
+import lv.javaguru.novopol.logic.api.article.RemoveArticleResponse;
 
+public interface RemoveArticleService {
+	RemoveArticleResponse removeArticle (RemoveArticleRequest request);
 }
