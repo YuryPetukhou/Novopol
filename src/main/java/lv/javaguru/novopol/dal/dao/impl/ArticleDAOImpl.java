@@ -9,6 +9,14 @@ import lv.javaguru.novopol.domain.Article;
 
 public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 
+	public ArticleDAOImpl() {
+		super();
+	}
+	
+	public ArticleDAOImpl(int pageNumber, int entriesPerPage) {
+		super(pageNumber,entriesPerPage);
+	}
+	
 	public UUID addArticle(Article article) {
 		// TODO Auto-generated method stub
 		return null;

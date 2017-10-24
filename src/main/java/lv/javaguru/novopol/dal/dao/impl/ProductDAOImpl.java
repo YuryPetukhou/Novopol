@@ -9,6 +9,14 @@ import lv.javaguru.novopol.domain.Product;
 
 public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 
+	public ProductDAOImpl() {
+		super();
+	}
+	
+	public ProductDAOImpl(int pageNumber, int entriesPerPage) {
+		super(pageNumber,entriesPerPage);
+	}
+	
 	public UUID addProduct(Product Product) {
 		// TODO Auto-generated method stub
 		return null;

@@ -9,6 +9,14 @@ import lv.javaguru.novopol.domain.News;
 
 public class NewsDAOImpl extends DAOImpl implements NewsDAO {
 
+	public NewsDAOImpl() {
+		super();
+	}
+	
+	public NewsDAOImpl(int pageNumber, int entriesPerPage) {
+		super(pageNumber,entriesPerPage);
+	}
+	
 	public UUID addNews(News news) {
 		// TODO Auto-generated method stub
 		return null;
