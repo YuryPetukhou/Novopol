@@ -3,14 +3,16 @@ package lv.javaguru.novopol.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class News extends Entity {
-
+public class Article extends Entity {
 	private String text;
 	private String header;
 	private String author;
 	private String summary;
 	private LocalDateTime postDate;
 	private List<String> keywords;
+	
+	public Article () {
+	}
 	
 	@Override
 	public int hashCode() {
@@ -32,7 +34,7 @@ public class News extends Entity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		News other = (News) obj;
+		Article other = (Article) obj;
 		if (author == null) {
 			if (other.author != null)
 				return false;
@@ -67,7 +69,7 @@ public class News extends Entity {
 	}
 	@Override
 	public String toString() {
-		return "News [text=" + text + ", header=" + header + ", author=" + author + ", summary=" + summary
+		return "Article [text=" + text + ", header=" + header + ", author=" + author + ", summary=" + summary
 				+ ", postDate=" + postDate + ", keywords=" + keywords + "]";
 	}
 	public String getText() {
@@ -75,18 +77,6 @@ public class News extends Entity {
 	}
 	public void setText(String text) {
 		this.text = text;
-	}
-	public LocalDateTime getPostDate() {
-		return postDate;
-	}
-	public void setPostDate(LocalDateTime postDate) {
-		this.postDate = postDate;
-	}
-	public List<String> getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
 	}
 	public String getHeader() {
 		return header;
@@ -106,5 +96,16 @@ public class News extends Entity {
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-	
+	public LocalDateTime getPostDate() {
+		return postDate;
+	}
+	public void setPostDate(LocalDateTime postDate) {
+		this.postDate = postDate;
+	}
+	public List<String> getKeywords() {
+		return keywords;
+	}
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
+	}
 }
