@@ -16,9 +16,9 @@ public class Product extends Entity {
 	private double priceReal;
 	private int numberInPack;
 	private double metersInPack;
-	private String collection;
-	private String producer;
-	private String supplier;
+	private Collection collection;
+	private Producer producer;
+	private Supplier supplier;
 	private String surfaceType;	
 	private String thumbnailImageFileName;
 	private FileInputStream thumbnailImageStream;
@@ -27,8 +27,7 @@ public class Product extends Entity {
 	
 	public Product() {
 	}
-	
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,7 +57,7 @@ public class Product extends Entity {
 		result = prime * result + ((wearResistanceGrade == null) ? 0 : wearResistanceGrade.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -241,27 +240,27 @@ public class Product extends Entity {
 		this.metersInPack = metersInPack;
 	}
 
-	public String getCollection() {
+	public Collection getCollection() {
 		return collection;
 	}
 
-	public void setCollection(String collection) {
+	public void setCollection(Collection collection) {
 		this.collection = collection;
 	}
 
-	public String getProducer() {
+	public Producer getProducer() {
 		return producer;
 	}
 
-	public void setProducer(String producer) {
+	public void setProducer(Producer producer) {
 		this.producer = producer;
 	}
 
-	public String getSupplier() {
+	public Supplier getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(String supplier) {
+	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
 
@@ -304,5 +303,4 @@ public class Product extends Entity {
 	public void setFullsizeImageStream(FileInputStream fullsizeImageStream) {
 		this.fullsizeImageStream = fullsizeImageStream;
 	}
-	
 }
