@@ -3,12 +3,12 @@ package lv.javaguru.novopol.domain;
 public class Collection {
 	private String id;
 	private String name;
-	private String producerId;
+	private Producer producer;
 	private String description;
 	
 	public Collection() {
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -16,9 +16,10 @@ public class Collection {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((producerId == null) ? 0 : producerId.hashCode());
+		result = prime * result + ((producer == null) ? 0 : producer.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -43,10 +44,10 @@ public class Collection {
 				return false;
 		} else if (!name.equals(other.name))
 			return false;
-		if (producerId == null) {
-			if (other.producerId != null)
+		if (producer == null) {
+			if (other.producer != null)
 				return false;
-		} else if (!producerId.equals(other.producerId))
+		} else if (!producer.equals(other.producer))
 			return false;
 		return true;
 	}
@@ -67,12 +68,12 @@ public class Collection {
 		this.name = name;
 	}
 
-	public String getProducerId() {
-		return producerId;
+	public Producer getProducer() {
+		return producer;
 	}
 
-	public void setProducerId(String producerId) {
-		this.producerId = producerId;
+	public void setProducer(Producer producer) {
+		this.producer = producer;
 	}
 
 	public String getDescription() {
@@ -82,4 +83,5 @@ public class Collection {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 }
