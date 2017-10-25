@@ -37,20 +37,20 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 
 	public List<Article> getAllArticles() {
 		List<Article> articlesList = new ArrayList<Article>();
-		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = getSelectAllStatement(
-						connection, pageNumber, entriesPerPage);
-				ResultSet resultSet = statement.executeQuery()) {
-
-			while (resultSet.next()) {
-				
-			}
-
-		} catch (Throwable e) {
-			e.printStackTrace();
-            throw new DBException(e);
-		}
-		return abstractsList;
+//		try (Connection connection = getPoolConnection();
+//				PreparedStatement statement = getSelectAllStatement(
+//						connection, pageNumber, entriesPerPage);
+//				ResultSet resultSet = statement.executeQuery()) {
+//
+//			while (resultSet.next()) {
+//				
+//			}
+//
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//            throw new DBException(e);
+//		}
+		return articlesList;
 	}
 
 	private PreparedStatement getSelectAllStatement(Connection connection, int pageNumber, int entriesPerPage) throws SQLException {
