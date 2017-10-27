@@ -1,7 +1,6 @@
 package lv.javaguru.novopol.domain;
 
-public class Collection {
-	private String id;
+public class Collection extends Entity{
 	private String name;
 	private Producer producer;
 	private String description;
@@ -12,9 +11,8 @@ public class Collection {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((producer == null) ? 0 : producer.hashCode());
 		return result;
@@ -24,7 +22,7 @@ public class Collection {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -33,11 +31,6 @@ public class Collection {
 			if (other.description != null)
 				return false;
 		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -52,12 +45,9 @@ public class Collection {
 		return true;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	@Override
+	public String toString() {
+		return "Collection [name=" + name + ", producer=" + producer + ", description=" + description + "]";
 	}
 
 	public String getName() {
@@ -83,5 +73,6 @@ public class Collection {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+		
 }
