@@ -14,5 +14,6 @@ public interface ArticleDAO {
 	List<Article> getArticlesByAuthor (String author);
 	List<Article> getArticlesByDates (LocalDate startDate, LocalDate finishDate);
 	boolean removeArticle(Article article);
+	boolean removeArticle(UUID articleId);
 	
 }

@@ -236,17 +236,23 @@ public class NewsDAOImpl extends DAOImpl implements NewsDAO {
 
 	@Override
 	public boolean removeNews(News news) {
-		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.removeNewsStatement(connection, news);
-				ResultSet rs = statement.executeQuery();) {
+				return removeNews(news.getId());
+	}
 
-			if (rs.next()) {
-				news.setId((UUID) rs.getObject(1));
-			}
+	@Override
+	public boolean removeNews(UUID newsId) {
+		if (newsId==null) {
+			return false;
+		}
+		try (Connection connection = getPoolConnection();
+				PreparedStatement statement = sqlFactory.removeNewsStatement(connection, newsId);) {
+			statement.executeUpdate();
+
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
 		}
+
 		return true;
 	}
 

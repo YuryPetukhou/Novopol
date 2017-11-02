@@ -104,9 +104,9 @@ public class NewsSQLFactory extends SQLStatementFactory {
 		return statement;
 	}
 
-	public PreparedStatement removeNewsStatement(Connection connection, News article) throws SQLException {
+	public PreparedStatement removeNewsStatement(Connection connection, UUID id) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_DELETE_NEWS_BY_ID);
-		statement.setObject(1, article.getId());
+		statement.setObject(1, id);
 		return statement;
 	}
 

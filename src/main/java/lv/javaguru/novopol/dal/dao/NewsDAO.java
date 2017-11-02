@@ -13,5 +13,6 @@ public interface NewsDAO {
 	List<News> getNewsByKeywords (List<String> keywords);
 	List<News> getNewsByAuthor (String author);
 	List<News> getNewsByDates (LocalDate startDate, LocalDate finishDate);
-	boolean removeNews(News News);
+	boolean removeNews(News news);
+	boolean removeNews(UUID newsId);
 }

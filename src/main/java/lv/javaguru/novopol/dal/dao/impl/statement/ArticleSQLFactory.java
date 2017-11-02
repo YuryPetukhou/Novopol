@@ -19,9 +19,9 @@ public class ArticleSQLFactory extends SQLStatementFactory {
 	private static final String SQL_GET_ARTICLE_KEYWORDS = "SELECT a.id, b.keyword FROM public.articles_keywords AS a JOIN public.keywords AS b ON a.keyword_id=b.id WHERE article_id=?";
 	private static final String SQL_DELETE_ARTICLE_KEYWORDS = "DELETE FROM articles_keywords WHERE id IN (?)";
 	private static final String SQL_GET_ARTICLE_BY_AUTHOR = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE author=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
-	private static final String SQL_GET_ARTICLE_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE post_dt>=? AND post_dt<=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_ARTICLES_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE post_dt>=? AND post_dt<=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_DELETE_ARTICLE_BY_ID = "DELETE FROM articles WHERE id=?";
-	private static final String SQL_GET_ARTICLES_BY_KEYWORDS = "SELECT c.id, COUNT(b.keyword) AS d FROM public.keywords AS b JOIN public.articles_keywords AS a ON a.keyword_id=b.id JOIN public.articles AS c ON a.article_id=c.id WHERE b.keyword IN(?) GROUP BY c.id ORDER BY d DESC";
+	private static final String SQL_GET_ARTICLES_BY_KEYWORDS = "SELECT c.id, COUNT(b.keyword) AS d FROM public.keywords AS b JOIN public.articles_keywords AS a ON a.keyword_id=b.id JOIN public.articles AS c ON a.article_id=c.id WHERE b.keyword IN(?) GROUP BY c.id ORDER BY d DESC LIMIT ? OFFSET ?";
 	
 	public PreparedStatement insertArticleKeyword(Connection connection, Article article, UUID keywordId)
 			throws SQLException {
@@ -95,36 +95,49 @@ public class ArticleSQLFactory extends SQLStatementFactory {
 			int entriesPerPage) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_GET_ARTICLE_BY_AUTHOR);
 		statement.setObject(1, author);
+		int firstArticleNumber = pageNumber * entriesPerPage;
+		statement.setInt(2, entriesPerPage);
+		statement.setInt(3, firstArticleNumber);
+	
 		return statement;
 	}
 
 	public PreparedStatement getSelectByDateStatement(Connection connection, LocalDate startDate, LocalDate finishDate,
 			int pageNumber, int entriesPerPage) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement(SQL_GET_ARTICLE_WITHIN_DATES);
+		PreparedStatement statement = connection.prepareStatement(SQL_GET_ARTICLES_WITHIN_DATES);
 		statement.setObject(1, startDate);
 		statement.setObject(2, finishDate);
+		int firstArticleNumber = pageNumber * entriesPerPage;
+		statement.setInt(3, entriesPerPage);
+		statement.setInt(4, firstArticleNumber);
 		return statement;
 	}
 
-	public PreparedStatement removeArticleStatement(Connection connection, Article article) throws SQLException {
+	
+	
+	public PreparedStatement removeArticleStatement(Connection connection, UUID id) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_DELETE_ARTICLE_BY_ID);
-		statement.setObject(1, article.getId());
+		statement.setObject(1, id);
 		return statement;
 	}
 
-	public PreparedStatement getArticlesByKeywords(Connection connection, List<String> keywords) throws SQLException {
+	public PreparedStatement getArticlesByKeywords(Connection connection, List<String> keywords,int pageNumber,
+			int entriesPerPage) throws SQLException {
 		String sql = SQL_GET_ARTICLES_BY_KEYWORDS;
-		String parameterSubstring = "";
+		String parameterSubstring = "(";
 		for (int i = 0; i < keywords.size(); ++i) {
 			sql += i > 1 ? "," : "";
 			sql += "?";
 		}
-		sql.replace("?", parameterSubstring);
+		sql+=")";
+		sql.replace("(?)", parameterSubstring);
 		PreparedStatement statement = connection.prepareStatement(sql);
 		for (int i = 0; i < keywords.size(); ++i) {
 			statement.setString(i, keywords.get(i).toString());
 		}	
-		
+		int firstArticleNumber = pageNumber * entriesPerPage;
+		statement.setInt(keywords.size()+1, entriesPerPage);
+		statement.setInt(keywords.size()+2, firstArticleNumber);
 		return statement;
 	}
 

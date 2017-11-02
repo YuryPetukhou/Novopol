@@ -34,7 +34,7 @@ public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 	public UUID getSurfaceTypeId(String surfaceType) {
 		UUID id = null;
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.getKeyWordId(connection, surfaceType);
+				PreparedStatement statement = sqlFactory.getSurfaceTypeId(connection, surfaceType);
 				ResultSet resultSet = statement.executeQuery()) {
 			if (resultSet.next()) {
 				id = (UUID) resultSet.getObject(1);
@@ -44,6 +44,24 @@ public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 			throw new DBException(e);
 		}
 		return id;
+	}
+
+	@Override
+	public boolean updateSurfaceType(String surfaceType, UUID id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeSurfaceType(String surfaceType) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean updateSurfaceType(UUID id) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

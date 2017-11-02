@@ -178,20 +178,17 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 	public List<Article> getArticlesByKeywords(List<String> keywords) {
 		List<Article> articlesList = new ArrayList<Article>();
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.getArticlesByKeywords(connection, keywords);
+				PreparedStatement statement = sqlFactory.getArticlesByKeywords(connection, keywords,pageNumber,entriesPerPage);
 				ResultSet resultSet = statement.executeQuery()) {
-
 			while (resultSet.next()) {
 				Article article = prepareArticle(resultSet);
 				articlesList.add(article);
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
 		}
 		return articlesList;
-
 	}
 
 	public List<Article> getArticlesByAuthor(String author) {
@@ -199,12 +196,10 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 		try (Connection connection = getPoolConnection();
 				PreparedStatement statement = sqlFactory.getSelectByAuthorStatement(connection, author,pageNumber, entriesPerPage);
 				ResultSet resultSet = statement.executeQuery()) {
-
 			while (resultSet.next()) {
 				Article article = prepareArticle(resultSet);
 				articlesList.add(article);
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
@@ -217,12 +212,10 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 		try (Connection connection = getPoolConnection();
 				PreparedStatement statement = sqlFactory.getSelectByDateStatement(connection, startDate,finishDate,pageNumber, entriesPerPage);
 				ResultSet resultSet = statement.executeQuery()) {
-
 			while (resultSet.next()) {
 				Article article = prepareArticle(resultSet);
 				articlesList.add(article);
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
@@ -231,13 +224,17 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 	}
 
 	public boolean removeArticle(Article article) {
-		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.removeArticleStatement(connection, article);
-				ResultSet rs = statement.executeQuery();) {
+		return removeArticle(article.getId());
+	}
 
-			if (rs.next()) {
-				article.setId((UUID) rs.getObject(1));
-			}
+	@Override
+	public boolean removeArticle(UUID articleId) {
+		if (articleId==null) {
+			return false;
+		}
+		try (Connection connection = getPoolConnection();
+				PreparedStatement statement = sqlFactory.removeArticleStatement(connection, articleId)) {
+			statement.executeUpdate();			
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
