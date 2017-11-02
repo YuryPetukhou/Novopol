@@ -9,10 +9,12 @@ import java.util.UUID;
 
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.ProductDAO;
+import lv.javaguru.novopol.dal.dao.SupplierDAO;
 import lv.javaguru.novopol.dal.dao.SurfaceTypeDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.ProductSQLFactory;
 import lv.javaguru.novopol.domain.Collection;
 import lv.javaguru.novopol.domain.Product;
+import lv.javaguru.novopol.domain.Supplier;
 
 public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 
@@ -42,7 +44,7 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 			insertCollectionLine(product);
 		}
 		if (product.getSupplier() != null) {
-			insertCollectionLine(product);
+			insertSupplierLine(product);
 		}
 		if (product.getSurfaceType() != null) {
 			insertSurfaceTypeLine(product);
@@ -70,6 +72,26 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 
 	}
 
+	private void insertSupplierLine(Product product) {
+		Supplier supplier = product.getSupplier();
+		if (supplier!=null) {
+			UUID supplierId = supplier.getId();
+			try (Connection connection = getPoolConnection();
+					PreparedStatement statement = sqlFactory.insertProductSupplier(connection, product,
+							supplierId);) {
+				statement.executeUpdate();
+			} catch (Throwable e) {
+				e.printStackTrace();
+				throw new DBException(e);
+			}
+		}
+		
+		
+		
+
+	}
+
+	
 	private void insertCollectionLine(Product product) {
 		Collection collection = product.getCollection();
 		try (Connection connection = getPoolConnection();

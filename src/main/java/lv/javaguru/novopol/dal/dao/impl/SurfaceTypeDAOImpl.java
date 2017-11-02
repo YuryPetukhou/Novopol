@@ -11,8 +11,8 @@ import lv.javaguru.novopol.dal.dao.impl.statement.SurfaceTypeSQLFactory;
 
 public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 
-private SurfaceTypeSQLFactory sqlFactory = new SurfaceTypeSQLFactory();
-	
+	private SurfaceTypeSQLFactory sqlFactory = new SurfaceTypeSQLFactory();
+
 	@Override
 	public UUID insertSurfaceType(String surfaceType) {
 		UUID id = null;
@@ -45,6 +45,5 @@ private SurfaceTypeSQLFactory sqlFactory = new SurfaceTypeSQLFactory();
 		}
 		return id;
 	}
-
 
 }

@@ -11,7 +11,8 @@ public class ProductSQLFactory extends SQLStatementFactory {
 
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO public.items (id,created_dt, updated_dt, created_by,updated_by,size_one, size_two, size_three,strength_grade, wear_resistance_class,code_number,name,price_displayed,price_real,image_thumbnail,image_fullsize,number_in_pack,meters_in_pack) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?,?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id";
 	private static final String SQL_INSERT_PRODUCT_SURFACE_TYPE = "INSERT INTO public.items_surface_types (created_dt, updated_dt, created_by,updated_by,item_id,surface_type_id) VALUES (now(),now(),'Auto','Auto',?,?)";
-	private static final String SQL_INSERT_PRODUCT_COLLECTION = "INSERT INTO public.items_collections (created_dt, updated_dt, created_by,updated_by,item_id,collection_id) VALUES (now(),now(),'Auto','Auto',?,?)";;
+	private static final String SQL_INSERT_PRODUCT_COLLECTION = "INSERT INTO public.items_collections (created_dt, updated_dt, created_by,updated_by,item_id,collection_id) VALUES (now(),now(),'Auto','Auto',?,?)";
+	private static final String SQL_INSERT_PRODUCT_SUPPLIER = "INSERT INTO public.items_suppliers (created_dt, updated_dt, created_by,updated_by,item_id,supplier_id) VALUES (now(),now(),'Auto','Auto',?,?)";;
 	
 	
 	public PreparedStatement insertProductStatement(Connection connection, Product product) throws SQLException {
@@ -46,5 +47,11 @@ public class ProductSQLFactory extends SQLStatementFactory {
 		statement.setObject(2, collectionId);
 		return statement;
 	}
-	
+
+	public PreparedStatement insertProductSupplier(Connection connection, Product product, UUID supplierId) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SQL_INSERT_PRODUCT_SUPPLIER);
+		statement.setObject(1, product.getId());
+		statement.setObject(2, supplierId);
+		return statement;
+	}
 }
