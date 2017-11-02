@@ -20,6 +20,7 @@ public class ProductBuilder {
 	private int strengthGrade;
 	private String wearResistanceGrade;
 	private String codeNumber;
+	private String name;	
 	private double priceDisplayed;
 	private double priceReal;
 	private int numberInPack;
@@ -58,7 +59,11 @@ public class ProductBuilder {
 	public ProductBuilder withCodeNumber(String codeNumber) {
 		this.codeNumber = codeNumber;
 		return this;
-	}	
+	}
+	public ProductBuilder withName(String name) {
+		this.name = name;
+		return this;
+	}
 	public ProductBuilder withPriceDisplayed(double priceDisplayed) {
 		this.priceDisplayed = priceDisplayed;
 		return this;
@@ -130,6 +135,7 @@ public class ProductBuilder {
 		product.setStrengthGrade(strengthGrade);
 		product.setWearResistanceGrade(wearResistanceGrade);
 		product.setCodeNumber(codeNumber);
+		product.setName(name);
 		product.setPriceDisplayed(priceDisplayed);
 		product.setPriceReal(priceReal);
 		product.setNumberInPack(numberInPack);

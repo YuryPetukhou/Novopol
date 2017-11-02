@@ -7,7 +7,7 @@ import java.util.UUID;
 import lv.javaguru.novopol.domain.Product;
 
 public interface ProductDAO {
-	UUID addProduct(Product Product);
+	Product addProduct(Product Product);
 	boolean updateProduct(Product Product);
 	List<Product> getAllProducts ();
 	List<Product> getProductsByKeywords (List<String> keywords);

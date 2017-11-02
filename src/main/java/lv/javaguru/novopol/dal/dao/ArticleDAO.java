@@ -7,7 +7,7 @@ import java.util.UUID;
 import lv.javaguru.novopol.domain.Article;
 
 public interface ArticleDAO {
-	UUID addArticle(Article article);
+	Article addArticle(Article article);
 	boolean updateArticle(Article article);
 	List<Article> getAllArticles ();
 	List<Article> getArticlesByKeywords (List<String> keywords);

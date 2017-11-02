@@ -8,7 +8,7 @@ import lv.javaguru.novopol.domain.Article;
 
 public class ArticleBuilder {
 
-	private String text;
+	private String content;
 	private String header;
 	private String author;
 	private String summary;
@@ -25,8 +25,8 @@ public class ArticleBuilder {
 		return new ArticleBuilder();
 	}
 	
-	public ArticleBuilder withText(String text) {
-		this.text = text;
+	public ArticleBuilder withContent(String text) {
+		this.content = text;
 		return this;
 	}
 	public ArticleBuilder withHeader(String header) {
@@ -38,7 +38,7 @@ public class ArticleBuilder {
 		return this;
 	}
 	public ArticleBuilder withSource(String source) {
-		this.text = source;
+		this.source = source;
 		return this;
 	}
 	public ArticleBuilder withSummary(String summary) {
@@ -69,6 +69,10 @@ public class ArticleBuilder {
 		this.updatedBy = updatedBy;
 		return this;
 	}
+	public ArticleBuilder withKeywords(List<String> keywords) {
+		this.keywords = keywords;
+		return this;
+	}
 	
 	public Article build() {
 		Article article = new Article();
@@ -83,7 +87,7 @@ public class ArticleBuilder {
 		article.setPostDate(postDate);
 		article.setSource(source);
 		article.setSummary(summary);
-		article.setText(text);
+		article.setText(content);
 		return article;
 	}
 }

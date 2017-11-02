@@ -7,11 +7,11 @@ import java.util.UUID;
 import lv.javaguru.novopol.domain.News;
 
 public interface NewsDAO {
-	UUID addNews(News news);
+	News addNews(News news);
 	boolean updateNews(News news);
-	List<News> getAllNewss ();
-	List<News> getNewssByKeywords (List<String> keywords);
-	List<News> getNewssByAuthor (String author);
-	List<News> getNewssByDates (LocalDate startDate, LocalDate finishDate);
+	List<News> getAllNews ();
+	List<News> getNewsByKeywords (List<String> keywords);
+	List<News> getNewsByAuthor (String author);
+	List<News> getNewsByDates (LocalDate startDate, LocalDate finishDate);
 	boolean removeNews(News News);
 }
