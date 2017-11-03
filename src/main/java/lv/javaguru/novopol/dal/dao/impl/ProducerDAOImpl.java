@@ -9,21 +9,19 @@ import java.util.List;
 import java.util.UUID;
 
 import lv.javaguru.novopol.dal.DBException;
-import lv.javaguru.novopol.dal.dao.SupplierDAO;
-import lv.javaguru.novopol.dal.dao.impl.statement.SupplierSQLFactory;
-import lv.javaguru.novopol.domain.Article;
-import lv.javaguru.novopol.domain.Supplier;
-import lv.javaguru.novopol.domain.builder.ArticleBuilder;
-import lv.javaguru.novopol.domain.builder.SupplierBuilder;
+import lv.javaguru.novopol.dal.dao.ProducerDAO;
+import lv.javaguru.novopol.dal.dao.impl.statement.ProducerSQLFactory;
+import lv.javaguru.novopol.domain.Producer;
+import lv.javaguru.novopol.domain.builder.ProducerBuilder;
 
-public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
+public class ProducerDAOImpl extends DAOImpl implements ProducerDAO {
 
-	private SupplierSQLFactory sqlFactory = new SupplierSQLFactory();
+	private ProducerSQLFactory sqlFactory = new ProducerSQLFactory();
 
 	@Override
-	public Supplier addSupplier(Supplier supplier) {
+	public Producer addProducer(Producer supplier) {
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.insertSupplierStatement(connection, supplier);
+				PreparedStatement statement = sqlFactory.insertProducerStatement(connection, supplier);
 				ResultSet rs = statement.executeQuery();) {
 
 			if (rs.next()) {
@@ -37,12 +35,12 @@ public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
 	}
 
 	@Override
-	public boolean updateSupplier(Supplier supplier) {
+	public boolean updateProducer(Producer supplier) {
 		if (supplier.getId() == null) {
 			return false;
 		}
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.updateSupplierStatement(connection, supplier)) {
+				PreparedStatement statement = sqlFactory.updateProducerStatement(connection, supplier)) {
 			statement.executeUpdate();
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -53,15 +51,15 @@ public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
 	}
 
 	@Override
-	public List<Supplier> getAllSuppliers() {
-		List<Supplier> suppliersList = new ArrayList<Supplier>();
+	public List<Producer> getAllProducers() {
+		List<Producer> suppliersList = new ArrayList<Producer>();
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.getAllSuppliersStatement(connection, pageNumber,
+				PreparedStatement statement = sqlFactory.getAllProducersStatement(connection, pageNumber,
 						entriesPerPage);
 				ResultSet resultSet = statement.executeQuery()) {
 
 			while (resultSet.next()) {
-				Supplier article = prepareSupplier(resultSet);
+				Producer article = prepareProducer(resultSet);
 				suppliersList.add(article);
 			}
 
@@ -73,8 +71,8 @@ public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
 
 	}
 
-	private Supplier prepareSupplier(ResultSet resultSet) throws SQLException {
-		Supplier supplier = SupplierBuilder.createSupplier().withId((UUID) resultSet.getObject(1))
+	private Producer prepareProducer(ResultSet resultSet) throws SQLException {
+		Producer supplier = ProducerBuilder.createProducer().withId((UUID) resultSet.getObject(1))
 				.withName(resultSet.getString(6)).withCountry(resultSet.getString(7)).withCity(resultSet.getString(8))
 				.withState(resultSet.getString(9)).withZipCode(resultSet.getString(10))
 				.withStreet(resultSet.getString(11)).withHouse(resultSet.getString(12))
@@ -85,17 +83,17 @@ public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
 	}
 
 	@Override
-	public boolean removeSupplier(Supplier supplier) {
-		return removeSupplier(supplier.getId());
+	public boolean removeProducer(Producer supplier) {
+		return removeProducer(supplier.getId());
 	}
 
 	@Override
-	public boolean removeSupplier(UUID supplierId) {
+	public boolean removeProducer(UUID supplierId) {
 		if (supplierId == null) {
 			return false;
 		}
 		try (Connection connection = getPoolConnection();
-				PreparedStatement statement = sqlFactory.removeSupplierStatement(connection, supplierId)) {
+				PreparedStatement statement = sqlFactory.removeProducerStatement(connection, supplierId)) {
 			statement.executeUpdate();
 		} catch (Throwable e) {
 			e.printStackTrace();

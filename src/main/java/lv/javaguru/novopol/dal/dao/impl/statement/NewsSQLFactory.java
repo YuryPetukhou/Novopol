@@ -11,14 +11,14 @@ import java.util.UUID;
 import lv.javaguru.novopol.domain.News;
 
 public class NewsSQLFactory extends SQLStatementFactory {
-	private static final String SQL_GET_ALL_NEWS = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news ORDER BY created_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_ALL_NEWS = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news ORDER BY post_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_INSERT_NEWS = "INSERT INTO public.news (id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?,?,?,?,?,?) RETURNING id";
 	private static final String SQL_UPDATE_NEWS = "UPDATE public.news SET updated_dt=now(), updated_by='Auto',post_dt=?,header=?, content=?, abstract=?,source=?, author=? WHERE id = ?";
 	private static final String SQL_INSERT_NEWS_KEYWORD = "INSERT INTO public.news_keywords (created_dt, updated_dt, created_by,updated_by,news_id,keyword_id) VALUES (now(),now(),'Auto','Auto',?,?)";
 	private static final String SQL_GET_NEWS_KEYWORDS = "SELECT a.id, b.keyword FROM public.news_keywords AS a JOIN public.keywords AS b ON a.keyword_id=b.id WHERE news_id=?";
 	private static final String SQL_DELETE_NEWS_KEYWORDS = "DELETE FROM news_keywords WHERE id IN (?)";
-	private static final String SQL_GET_NEWS_BY_AUTHOR = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news WHERE author=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
-	private static final String SQL_GET_NEWS_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news WHERE post_dt>=? AND post_dt<=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_NEWS_BY_AUTHOR = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news WHERE author=? ORDER BY post_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_NEWS_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news WHERE post_dt>=? AND post_dt<=? ORDER BY post_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_DELETE_NEWS_BY_ID = "DELETE FROM news WHERE id=?";
 	private static final String SQL_GET_NEWS_BY_KEYWORDS = "SELECT c.id, COUNT(b.keyword) AS d FROM public.keywords AS b JOIN public.news_keywords AS a ON a.keyword_id=b.id JOIN public.news AS c ON a.news_id=c.id WHERE b.keyword IN(?) GROUP BY c.id ORDER BY d DESC";
 

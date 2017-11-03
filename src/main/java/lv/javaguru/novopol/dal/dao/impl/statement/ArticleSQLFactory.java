@@ -12,14 +12,14 @@ import lv.javaguru.novopol.domain.Article;
 
 public class ArticleSQLFactory extends SQLStatementFactory {
 
-	private static final String SQL_GET_ALL_ARTICLES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles ORDER BY created_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_ALL_ARTICLES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles ORDER BY post_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_INSERT_ARTICLE = "INSERT INTO public.articles (id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?,?,?,?,?,?) RETURNING id";
 	private static final String SQL_UPDATE_ARTICLE = "UPDATE public.articles SET updated_dt=now(), updated_by='Auto',post_dt=?,header=?, content=?, abstract=?,source=?, author=? WHERE id = ?";
 	private static final String SQL_INSERT_ARTICLE_KEYWORD = "INSERT INTO public.articles_keywords (created_dt, updated_dt, created_by,updated_by,article_id,keyword_id) VALUES (now(),now(),'Auto','Auto',?,?)";
 	private static final String SQL_GET_ARTICLE_KEYWORDS = "SELECT a.id, b.keyword FROM public.articles_keywords AS a JOIN public.keywords AS b ON a.keyword_id=b.id WHERE article_id=?";
 	private static final String SQL_DELETE_ARTICLE_KEYWORDS = "DELETE FROM articles_keywords WHERE id IN (?)";
-	private static final String SQL_GET_ARTICLE_BY_AUTHOR = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE author=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
-	private static final String SQL_GET_ARTICLES_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE post_dt>=? AND post_dt<=? ORDER BY created_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_ARTICLE_BY_AUTHOR = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE author=? ORDER BY post_dt DESC LIMIT ? OFFSET ?";
+	private static final String SQL_GET_ARTICLES_WITHIN_DATES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles WHERE post_dt>=? AND post_dt<=? ORDER BY post_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_DELETE_ARTICLE_BY_ID = "DELETE FROM articles WHERE id=?";
 	private static final String SQL_GET_ARTICLES_BY_KEYWORDS = "SELECT c.id, COUNT(b.keyword) AS d FROM public.keywords AS b JOIN public.articles_keywords AS a ON a.keyword_id=b.id JOIN public.articles AS c ON a.article_id=c.id WHERE b.keyword IN(?) GROUP BY c.id ORDER BY d DESC LIMIT ? OFFSET ?";
 	
