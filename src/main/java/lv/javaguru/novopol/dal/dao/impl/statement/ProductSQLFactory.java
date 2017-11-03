@@ -21,9 +21,15 @@ public class ProductSQLFactory extends SQLStatementFactory {
 	private static final String SQL_DELETE_PRODUCT_SUPPLIER = "DELETE FROM public.items_suppliers WHERE item_id=?";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE public.items SET updated_dt=now(), updated_by='Auto',size_one=?, size_two=?, size_three=?,strength_grade=?, wear_resistance_class=?,code_number=?,name=?,price_displayed=?,price_real=?,image_thumbnail=?,image_fullsize=?,number_in_pack=?,meters_in_pack=? WHERE id=?";
 	private static final String SQL_SELECT_ALL_PRODUCTS = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id LIMIT ? OFFSET ?";
-	private static final String SQL_SELECT_PRODUCTS_BY_SURFACE_TYPE = null;
-	private static final String SQL_SELECT_PRODUCTS_BY_SUPPLIER = null;
-
+	private static final String SQL_SELECT_PRODUCTS_BY_SURFACE_TYPE = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE c.type=? LIMIT ? OFFSET ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_SUPPLIER = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE g.name=? LIMIT ? OFFSET ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_PRODUCER = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE i.name=? LIMIT ? OFFSET ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_COLLECTION = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE e.name=? LIMIT ? OFFSET ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_PRICE_DISPLAYED = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE a.price_displayed>=? AND a.price_displayed<=? LIMIT ? OFFSET ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_PRICE_REAL = "SELECT a.id,a.created_dt, a.updated_dt, a.created_by,a.updated_by,a.size_one, a.size_two, a.size_three,a.strength_grade, a.wear_resistance_class,a.code_number,name,a.price_displayed,a.price_real,a.image_thumbnail,a.image_fullsize,a.number_in_pack,a.meters_in_pack, c.type, e.id, e.name,g,id,g.name,i.id,i.name FROM items AS a LEFT JOIN public.items_surface_types AS b ON a.id=b.item_id LEFT JOIN public.surface_types AS c ON b.surface_type_id=c.id LEFT JOIN public.items_collections AS d ON a.id=d.item_id LEFT JOIN public.collections AS e ON d.collection_id=e.id LEFT JOIN public.items_suppliers AS f ON a.id=f.item_id LEFT JOIN public.suppliers AS g LEFT JOIN ON f.supplier_id=g.id LEFT JOIN public.collections_producers AS h ON e.id=h.collection_id LEFT JOIN public.producers AS i ON h.producer_id=i.id WHERE a.price_real>=? AND a.price_real<=? LIMIT ? OFFSET ?";
+	private static final String SQL_DELETE_PRODUCT_BY_ID ="DELETE FROM public.products WHERE id=?";
+	
+	
 	public PreparedStatement insertProductStatement(Connection connection, Product product) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_INSERT_PRODUCT);
 		setProductParameters(product, statement);
@@ -145,26 +151,42 @@ public class ProductSQLFactory extends SQLStatementFactory {
 		return statement;
 	}
 
-	public PreparedStatement getProductsByProducerStatement(Connection connection, String producer, int pageNumber,
-			int entriesPerPage) {
-		// TODO Auto-generated method stub
-		return null;
+	public PreparedStatement getProductsByProducerStatement(Connection connection, String producerName, int pageNumber,
+			int entriesPerPage) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_PRODUCER);
+		statement.setString(1, producerName);
+		int firstEntryNumber = pageNumber * entriesPerPage;
+		statement.setInt(2, entriesPerPage);
+		statement.setInt(3, firstEntryNumber);
+		return statement;
 	}
 
 	public PreparedStatement getProductsByPricesStatement(Connection connection, Double minPrice, Double maxPrice,
-			int pageNumber, int entriesPerPage) {
-		// TODO Auto-generated method stub
-		return null;
+			int pageNumber, int entriesPerPage) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_PRICE_DISPLAYED);
+		Double minPriceToEnter = minPrice==null ? Double.MIN_VALUE : minPrice;
+		Double maxPriceToEnter = maxPrice==null ? Double.MAX_VALUE : maxPrice;
+		statement.setDouble(1, minPriceToEnter);
+		statement.setDouble(2, maxPriceToEnter);
+		int firstEntryNumber = pageNumber * entriesPerPage;
+		statement.setInt(3, entriesPerPage);
+		statement.setInt(4, firstEntryNumber);
+		return statement;
 	}
 
-	public PreparedStatement getProductsByCollectionStatement(Connection connection, String collection, int pageNumber,
-			int entriesPerPage) {
-		// TODO Auto-generated method stub
-		return null;
+	public PreparedStatement getProductsByCollectionStatement(Connection connection, String collectionName, int pageNumber,
+			int entriesPerPage) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_COLLECTION);
+		statement.setString(1, collectionName);
+		int firstEntryNumber = pageNumber * entriesPerPage;
+		statement.setInt(2, entriesPerPage);
+		statement.setInt(3, firstEntryNumber);
+		return statement;
 	}
-
-	public PreparedStatement removeProductStatement(Connection connection, UUID productId) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public PreparedStatement removeProductStatement(Connection connection, UUID productId) throws SQLException {
+		PreparedStatement statement = connection.prepareStatement(SQL_DELETE_PRODUCT_BY_ID);
+		statement.setObject(1, productId);
+		return statement;
 	}
 }
