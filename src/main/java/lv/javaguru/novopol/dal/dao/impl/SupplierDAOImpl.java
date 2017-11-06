@@ -11,9 +11,7 @@ import java.util.UUID;
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.SupplierDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.SupplierSQLFactory;
-import lv.javaguru.novopol.domain.Article;
 import lv.javaguru.novopol.domain.Supplier;
-import lv.javaguru.novopol.domain.builder.ArticleBuilder;
 import lv.javaguru.novopol.domain.builder.SupplierBuilder;
 
 public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {

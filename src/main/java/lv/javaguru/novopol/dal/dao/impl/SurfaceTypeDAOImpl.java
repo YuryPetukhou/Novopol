@@ -48,20 +48,28 @@ public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 
 	@Override
 	public boolean updateSurfaceType(String surfaceType, UUID id) {
-		// TODO Auto-generated method stub
-		return false;
+		try (Connection connection = getPoolConnection();
+				PreparedStatement statement = sqlFactory.updateSurfaceTypeById(connection, id,surfaceType);) {
+			statement.executeQuery();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		return true;
 	}
 
 	@Override
 	public boolean removeSurfaceType(String surfaceType) {
-		// TODO Auto-generated method stub
-		return false;
+		try (Connection connection = getPoolConnection();
+				PreparedStatement statement = sqlFactory.deleteSurfaceType(connection, surfaceType);) {
+			statement.executeQuery();
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		return true;
 	}
 
-	@Override
-	public boolean updateSurfaceType(UUID id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
 }

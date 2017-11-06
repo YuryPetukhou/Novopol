@@ -7,5 +7,4 @@ public interface SurfaceTypeDAO {
 	UUID getSurfaceTypeId(String surfaceType);
 	boolean updateSurfaceType(String surfaceType,UUID id);
 	boolean removeSurfaceType(String surfaceType);
-	boolean updateSurfaceType(UUID id);
 }

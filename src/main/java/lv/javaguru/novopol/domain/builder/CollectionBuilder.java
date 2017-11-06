@@ -38,16 +38,21 @@ public class CollectionBuilder {
 		this.createdDateTime = createdDateTime;
 		return this;
 	}
-	public CollectionBuilder withupdatedDateTime(LocalDateTime updatedDateTime) {
+	public CollectionBuilder withUpdatedDateTime(LocalDateTime updatedDateTime) {
 		this.updatedDateTime = updatedDateTime;
 		return this;
 	}
-	public CollectionBuilder withcreatedBy(String createdBy) {
+	public CollectionBuilder withCreatedBy(String createdBy) {
 		this.createdBy = createdBy;
 		return this;
 	}
-	public CollectionBuilder withupdatedBy(String updatedBy) {
+	public CollectionBuilder withUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
+		return this;
+	}
+	
+	public CollectionBuilder withDescription(String description) {
+		this.description = description;
 		return this;
 	}
 	

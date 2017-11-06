@@ -108,7 +108,7 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 		updateProductSurfaceType(product);
 		updateProductCollection(product);
 		updateProductSupplier(product);
-		return false;
+		return true;
 	}
 
 	private void updateProductSupplier(Product product) {
@@ -193,8 +193,8 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 						entriesPerPage);
 				ResultSet resultSet = statement.executeQuery()) {
 			while (resultSet.next()) {
-				Product article = prepareProduct(resultSet);
-				productsList.add(article);
+				Product product = prepareProduct(resultSet);
+				productsList.add(product);
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

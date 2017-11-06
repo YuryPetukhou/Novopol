@@ -34,7 +34,6 @@ public class SupplierSQLFactory extends SQLStatementFactory {
 
 	public PreparedStatement insertSupplierStatement(Connection connection, Supplier supplier) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_INSERT_SUPPLIER);
-		//name,country,city,state,zipcode,street,house,office,email,website,contact_person
 		statement.setString(1, supplier.getName());
 		statement.setString(2, supplier.getCountry());
 		statement.setString(3, supplier.getCity());
