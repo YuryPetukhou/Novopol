@@ -1,5 +1,15 @@
 package lv.javaguru.novopol.logic.api.producer;
 
-public class UpdateProducerRequest {
+import lv.javaguru.novopol.domain.Producer;
 
+public class UpdateProducerRequest {
+	private final Producer article;
+
+	public UpdateProducerRequest(Producer article) {
+		this.article = article;
+	}
+	
+	public Producer getProducer() {
+		return article;
+	}
 }
