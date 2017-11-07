@@ -167,7 +167,7 @@ public class NewsDAOImpl extends DAOImpl implements NewsDAO {
 		LocalDateTime postDateTime = LocalDateTime.ofInstant(postDate.toInstant(), ZoneId.systemDefault());
 		
 		News news = NewsBuilder.createNews().withId((UUID) resultSet.getObject(1))
-				.withPostDate(postDateTime).withHeader(resultSet.getString(7)).withText(resultSet.getString(8))
+				.withPostDate(postDateTime).withHeader(resultSet.getString(7)).withContent(resultSet.getString(8))
 				.withSummary(resultSet.getString(9)).withSource(resultSet.getString(10))
 				.withAuthor(resultSet.getString(11)).build();
 		news.setKeywords(getNewsKeywords(news));

@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,11 +22,13 @@ import lv.javaguru.novopol.domain.builder.ArticleBuilder;
 public class ArticlesDAOTest {
 	private static final String SQL_DELETE_ALL_ARTICLES = "DELETE FROM public.articles";
 
+	private static UUID idToRemove=null;
+	
 	@Before
 	public void clearTable() {
 		try (Connection connection = DBConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_DELETE_ALL_ARTICLES)) {
-//			statement.execute();
+	//		statement.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,6 +38,16 @@ public class ArticlesDAOTest {
 	public void insertTest() {
 		ArticleDAO dao = new ArticleDAOImpl();
 		Article article =dao.addArticle(createArticle());
+		article.setAuthor("Vasil Lohankins");
+		Article articleToRemove =dao.addArticle(createArticle());
+		idToRemove = articleToRemove.getId();
+		System.out.println(idToRemove);
+		List<String> keywords = new ArrayList<String>();
+		keywords.add("Test keyword");
+		keywords.add("Test keyword2");
+		article.setKeywords(keywords);
+		dao.updateArticle(article);
+		Assert.assertNotNull(article.getId());
 	}
 	
 	private Article createArticle() {
@@ -45,15 +58,18 @@ public class ArticlesDAOTest {
 		return article;
 	}
 
-//	@Test
+	@Test
 	public void selectAllTest() {
 		ArticleDAO dao = new ArticleDAOImpl();
 		List<Article> list=dao.getAllArticles();
 		System.out.println(list);
-		Assert.assertTrue(list.size()>0);
 	}
 	
-	
+	@Test
+	public void deleteTest() {
+		ArticleDAO dao = new ArticleDAOImpl();
+		dao.removeArticle(idToRemove);
+	}
 	
 
 }

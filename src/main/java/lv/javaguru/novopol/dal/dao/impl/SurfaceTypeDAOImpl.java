@@ -3,11 +3,14 @@ package lv.javaguru.novopol.dal.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.SurfaceTypeDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.SurfaceTypeSQLFactory;
+import lv.javaguru.novopol.domain.Collection;
 
 public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 
@@ -50,7 +53,7 @@ public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 	public boolean updateSurfaceType(String surfaceType, UUID id) {
 		try (Connection connection = getPoolConnection();
 				PreparedStatement statement = sqlFactory.updateSurfaceTypeById(connection, id,surfaceType);) {
-			statement.executeQuery();
+			statement.executeUpdate();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
@@ -62,12 +65,30 @@ public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
 	public boolean removeSurfaceType(String surfaceType) {
 		try (Connection connection = getPoolConnection();
 				PreparedStatement statement = sqlFactory.deleteSurfaceType(connection, surfaceType);) {
-			statement.executeQuery();
+			statement.executeUpdate();
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new DBException(e);
 		}
 		return true;
+	}
+
+	@Override
+	public List<String> getAllSurfaceTypes() {
+		List<String> surfaceTypesList = new ArrayList<String>();
+		try (Connection connection = getPoolConnection();
+				PreparedStatement statement = sqlFactory.getAllSurfaceTypesStatement(connection, pageNumber,
+						entriesPerPage);
+				ResultSet resultSet = statement.executeQuery()) {
+			while (resultSet.next()) {
+				
+				surfaceTypesList.add(resultSet.getString(1));
+			}
+		} catch (Throwable e) {
+			e.printStackTrace();
+			throw new DBException(e);
+		}
+		return surfaceTypesList;
 	}
 
 	

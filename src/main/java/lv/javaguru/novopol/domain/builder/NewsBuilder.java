@@ -24,7 +24,7 @@ public class NewsBuilder {
 		return new NewsBuilder();
 	}
 	
-	public NewsBuilder withText(String text) {
+	public NewsBuilder withContent(String text) {
 		this.text = text;
 		return this;
 	}
@@ -48,6 +48,11 @@ public class NewsBuilder {
 		this.postDate = postDate;
 		return this;
 	}
+	public NewsBuilder withKeywords(List<String> keywords) {
+		this.keywords = keywords;
+		return this;
+	}
+	
 	public NewsBuilder withId(UUID id) {
 		this.id = id;
 		return this;

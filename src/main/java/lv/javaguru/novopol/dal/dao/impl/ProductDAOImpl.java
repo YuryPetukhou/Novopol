@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -208,9 +210,11 @@ public class ProductDAOImpl extends DAOImpl implements ProductDAO {
 				.withName(resultSet.getString(21)).build();
 		Collection collection = CollectionBuilder.createCollection().withId((UUID) resultSet.getObject(22))
 				.withName(resultSet.getString(23)).build();
+		LocalDateTime createdDateTime = LocalDateTime.ofInstant(((Date)resultSet.getObject(2)).toInstant(), ZoneId.systemDefault());
+		LocalDateTime updatedDateTime = LocalDateTime.ofInstant(((Date)resultSet.getObject(3)).toInstant(), ZoneId.systemDefault());
 		Product product = ProductBuilder.createProduct().withId((UUID) resultSet.getObject(1))
-				.withCreatedDateTime((LocalDateTime) resultSet.getObject(2))
-				.withupdatedDateTime((LocalDateTime) resultSet.getObject(3)).withcreatedBy(resultSet.getString(4))
+				.withCreatedDateTime(createdDateTime)
+				.withupdatedDateTime(updatedDateTime).withcreatedBy(resultSet.getString(4))
 				.withupdatedBy(resultSet.getString(5)).withSizeOne(resultSet.getInt(6)).withSizeTwo(resultSet.getInt(7))
 				.withSizeThree(resultSet.getInt(8)).withStrengthGrade(resultSet.getInt(9))
 				.withWearResistanceGrade(resultSet.getString(10)).withCodeNumber(resultSet.getString(11))

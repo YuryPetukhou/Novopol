@@ -57,6 +57,9 @@ public class ProducerSQLFactory extends SQLStatementFactory {
 
 	public PreparedStatement getAllProducersStatement(Connection connection, int pageNumber, int entriesPerPage) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(SQL_GET_ALL_PRODUCERS);
+		int firstNewsNumber = pageNumber * entriesPerPage;
+		statement.setInt(1, entriesPerPage);
+		statement.setInt(2, firstNewsNumber);
 		return statement;
 	}
 
