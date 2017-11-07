@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 9.6.1
--- Dumped by pg_dump version 9.6.3
+-- Dumped by pg_dump version 9.6.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -152,10 +152,10 @@ CREATE TABLE items (
     name character varying(100),
     price_displayed double precision,
     price_real double precision,
-    image_thumbnail bytea,
-    image_fullsize bytea,
     number_in_pack integer,
-    meters_in_pack double precision
+    meters_in_pack double precision,
+    image_thumbnail text,
+    image_fullsize text
 );
 
 
@@ -186,6 +186,21 @@ CREATE TABLE items_suppliers (
     updated_by character varying(15) NOT NULL,
     item_id uuid NOT NULL,
     supplier_id uuid NOT NULL
+);
+
+
+--
+-- Name: items_surface_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE items_surface_types (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    created_dt timestamp with time zone NOT NULL,
+    updated_dt timestamp with time zone NOT NULL,
+    created_by character varying(15) NOT NULL,
+    updated_by character varying(15) NOT NULL,
+    item_id uuid NOT NULL,
+    surface_type_id uuid NOT NULL
 );
 
 
@@ -288,6 +303,20 @@ CREATE TABLE suppliers (
 
 
 --
+-- Name: surface_types; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE surface_types (
+    id uuid DEFAULT uuid_generate_v4() NOT NULL,
+    created_dt timestamp with time zone NOT NULL,
+    updated_dt timestamp with time zone NOT NULL,
+    created_by character varying(15) NOT NULL,
+    updated_by character varying(15) NOT NULL,
+    type character varying(50)
+);
+
+
+--
 -- Name: articles_keywords articles_keywords_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -344,6 +373,14 @@ ALTER TABLE ONLY items_suppliers
 
 
 --
+-- Name: items_surface_types items_surface_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY items_surface_types
+    ADD CONSTRAINT items_surface_types_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: keywords keywords_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -384,6 +421,14 @@ ALTER TABLE ONLY suppliers
 
 
 --
+-- Name: surface_types surface_types_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY surface_types
+    ADD CONSTRAINT surface_types_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: article_id_covering_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -412,10 +457,10 @@ CREATE INDEX collection_one_id_covering_index ON collections_producers USING btr
 
 
 --
--- Name: item_id_covering_index; Type: INDEX; Schema: public; Owner: -
+-- Name: item_id_covering_index1; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX item_id_covering_index ON items_suppliers USING btree (item_id);
+CREATE INDEX item_id_covering_index1 ON items_surface_types USING btree (item_id);
 
 
 --
@@ -447,6 +492,13 @@ CREATE INDEX producer_id_covering_index ON collections_producers USING btree (pr
 
 
 --
+-- Name: supplier1_id_covering_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX supplier1_id_covering_index ON items_suppliers USING btree (item_id);
+
+
+--
 -- Name: supplier_id_covering_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -454,11 +506,18 @@ CREATE INDEX supplier_id_covering_index ON items_suppliers USING btree (supplier
 
 
 --
+-- Name: surface_typer_id_covering_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX surface_typer_id_covering_index ON items_surface_types USING btree (surface_type_id);
+
+
+--
 -- Name: articles_keywords articles_keywords_article_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY articles_keywords
-    ADD CONSTRAINT articles_keywords_article_id_fkey FOREIGN KEY (article_id) REFERENCES articles(id);
+    ADD CONSTRAINT articles_keywords_article_id_fkey FOREIGN KEY (article_id) REFERENCES articles(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -466,7 +525,7 @@ ALTER TABLE ONLY articles_keywords
 --
 
 ALTER TABLE ONLY articles_keywords
-    ADD CONSTRAINT articles_keywords_keyword_id_fkey FOREIGN KEY (keyword_id) REFERENCES keywords(id);
+    ADD CONSTRAINT articles_keywords_keyword_id_fkey FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -474,7 +533,7 @@ ALTER TABLE ONLY articles_keywords
 --
 
 ALTER TABLE ONLY collections_producers
-    ADD CONSTRAINT collections_producers_item_id_fkey FOREIGN KEY (collection_id) REFERENCES collections(id);
+    ADD CONSTRAINT collections_producers_item_id_fkey FOREIGN KEY (collection_id) REFERENCES collections(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -482,7 +541,7 @@ ALTER TABLE ONLY collections_producers
 --
 
 ALTER TABLE ONLY collections_producers
-    ADD CONSTRAINT collections_producers_producer_id_fkey FOREIGN KEY (producer_id) REFERENCES producers(id);
+    ADD CONSTRAINT collections_producers_producer_id_fkey FOREIGN KEY (producer_id) REFERENCES producers(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -490,7 +549,7 @@ ALTER TABLE ONLY collections_producers
 --
 
 ALTER TABLE ONLY items_collections
-    ADD CONSTRAINT items_collections_collection_id_fkey FOREIGN KEY (collection_id) REFERENCES collections(id);
+    ADD CONSTRAINT items_collections_collection_id_fkey FOREIGN KEY (collection_id) REFERENCES collections(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -498,7 +557,7 @@ ALTER TABLE ONLY items_collections
 --
 
 ALTER TABLE ONLY items_collections
-    ADD CONSTRAINT items_collections_item_id_fkey FOREIGN KEY (item_id) REFERENCES items(id);
+    ADD CONSTRAINT items_collections_item_id_fkey FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -506,7 +565,7 @@ ALTER TABLE ONLY items_collections
 --
 
 ALTER TABLE ONLY items_suppliers
-    ADD CONSTRAINT items_suppliers_item_id_fkey FOREIGN KEY (item_id) REFERENCES items(id);
+    ADD CONSTRAINT items_suppliers_item_id_fkey FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -514,7 +573,23 @@ ALTER TABLE ONLY items_suppliers
 --
 
 ALTER TABLE ONLY items_suppliers
-    ADD CONSTRAINT items_suppliers_supplier_id_fkey FOREIGN KEY (supplier_id) REFERENCES suppliers(id);
+    ADD CONSTRAINT items_suppliers_supplier_id_fkey FOREIGN KEY (supplier_id) REFERENCES suppliers(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: items_surface_types items_surface_types_item_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY items_surface_types
+    ADD CONSTRAINT items_surface_types_item_id_fkey FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: items_surface_types items_surface_types_surface_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY items_surface_types
+    ADD CONSTRAINT items_surface_types_surface_type_id_fkey FOREIGN KEY (surface_type_id) REFERENCES surface_types(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -522,7 +597,7 @@ ALTER TABLE ONLY items_suppliers
 --
 
 ALTER TABLE ONLY news_keywords
-    ADD CONSTRAINT news_keywords_keyword_id_fkey FOREIGN KEY (keyword_id) REFERENCES keywords(id);
+    ADD CONSTRAINT news_keywords_keyword_id_fkey FOREIGN KEY (keyword_id) REFERENCES keywords(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -538,7 +613,7 @@ ALTER TABLE ONLY news_keywords
 --
 
 ALTER TABLE ONLY news_keywords
-    ADD CONSTRAINT news_keywords_news_id_fkey FOREIGN KEY (news_id) REFERENCES news(id);
+    ADD CONSTRAINT news_keywords_news_id_fkey FOREIGN KEY (news_id) REFERENCES news(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
