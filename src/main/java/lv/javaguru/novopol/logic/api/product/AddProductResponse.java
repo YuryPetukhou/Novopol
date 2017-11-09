@@ -1,16 +1,16 @@
 package lv.javaguru.novopol.logic.api.product;
 
-import java.util.UUID;
+import lv.javaguru.novopol.domain.Product;
 
 public class AddProductResponse {
-	private final UUID id;
+	private final Product product;
 
-	public AddProductResponse(UUID id) {
+	public AddProductResponse(Product id) {
 		super();
-		this.id = id;
+		this.product = id;
 	}
 
-	public UUID getId() {
-		return id;
+	public Product getProduct() {
+		return product;
 	}
 }
