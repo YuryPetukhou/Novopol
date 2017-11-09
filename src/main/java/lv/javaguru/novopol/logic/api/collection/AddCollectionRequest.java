@@ -1,7 +1,6 @@
 package lv.javaguru.novopol.logic.api.collection;
 
 import lv.javaguru.novopol.domain.Collection;
-import lv.javaguru.novopol.domain.News;
 
 public class AddCollectionRequest {
 	private final Collection collection;

@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import lv.javaguru.novopol.domain.Collection;
-import lv.javaguru.novopol.domain.Producer;
 import lv.javaguru.novopol.domain.Product;
 import lv.javaguru.novopol.domain.Supplier;
 

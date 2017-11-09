@@ -1,7 +1,5 @@
 package lv.javaguru.novopol.logic.api.surfacetype;
 
-import lv.javaguru.novopol.domain.Supplier;
-
 public class AddSurfaceTypeRequest {
 	private final String surfaceType;
 

@@ -3,7 +3,6 @@ package lv.javaguru.novopol.domain.builder;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import lv.javaguru.novopol.domain.Producer;
 import lv.javaguru.novopol.domain.Supplier;
 
 public class SupplierBuilder {

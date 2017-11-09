@@ -1,6 +1,5 @@
 package lv.javaguru.novopol.domain;
 
-import java.io.FileInputStream;
 import java.util.UUID;
 
 public class Product extends Entity {
