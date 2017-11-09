@@ -8,17 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.CollectionDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.CollectionSQLFactory;
 import lv.javaguru.novopol.domain.Collection;
-import lv.javaguru.novopol.domain.Supplier;
 import lv.javaguru.novopol.domain.builder.CollectionBuilder;
-import lv.javaguru.novopol.domain.builder.SupplierBuilder;
 
+@Component
 public class CollectionDAOImpl extends DAOImpl implements CollectionDAO {
-
-	private CollectionSQLFactory sqlFactory = new CollectionSQLFactory();
+	@Autowired
+	private CollectionSQLFactory sqlFactory;// = new CollectionSQLFactory();
 
 	public CollectionDAOImpl() {
 		super();

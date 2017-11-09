@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.ArticleDAO;
 import lv.javaguru.novopol.dal.dao.KeywordDAO;
@@ -21,9 +24,10 @@ import lv.javaguru.novopol.dal.dao.impl.statement.ArticleSQLFactory;
 import lv.javaguru.novopol.domain.Article;
 import lv.javaguru.novopol.domain.builder.ArticleBuilder;
 
+@Component
 public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
-
-	private ArticleSQLFactory sqlFactory = new ArticleSQLFactory();
+	@Autowired
+	private ArticleSQLFactory sqlFactory;// = new ArticleSQLFactory();
 
 	public ArticleDAOImpl() {
 		super();

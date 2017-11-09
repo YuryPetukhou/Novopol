@@ -8,8 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.domain.Article;
 
+@Component
 public class ArticleSQLFactory extends SQLStatementFactory {
 
 	private static final String SQL_GET_ALL_ARTICLES = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.articles ORDER BY post_dt DESC LIMIT ? OFFSET ?";

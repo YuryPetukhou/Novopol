@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.domain.Producer;
 
+@Component
 public class ProducerSQLFactory extends SQLStatementFactory {
 	private static final String SQL_GET_ALL_PRODUCERS = "SELECT id,created_dt, updated_dt, created_by,updated_by,name,country,city,state,zipcode,street,house,office,phone,email,website,contact_person FROM public.producers ORDER BY created_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_INSERT_PRODUCER = "INSERT INTO public.producers (id,created_dt, updated_dt, created_by,updated_by,name,country,city,state,zipcode,street,house,office,phone,email,website,contact_person) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?,?,?,?,?,?,?,?,?,?,?,?) RETURNING id";

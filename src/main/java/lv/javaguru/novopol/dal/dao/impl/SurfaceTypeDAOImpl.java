@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.SurfaceTypeDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.SurfaceTypeSQLFactory;
-import lv.javaguru.novopol.domain.Collection;
 
+@Component
 public class SurfaceTypeDAOImpl extends DAOImpl implements SurfaceTypeDAO {
-
-	private SurfaceTypeSQLFactory sqlFactory = new SurfaceTypeSQLFactory();
+	@Autowired
+	private SurfaceTypeSQLFactory sqlFactory;// = new SurfaceTypeSQLFactory();
 
 	@Override
 	public UUID insertSurfaceType(String surfaceType) {

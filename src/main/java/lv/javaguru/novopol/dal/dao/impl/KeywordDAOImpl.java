@@ -5,13 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.KeywordDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.KeywordSQLFactory;
 
+@Component
 public class KeywordDAOImpl extends DAOImpl implements KeywordDAO {
-
-	private KeywordSQLFactory sqlFactory = new KeywordSQLFactory();
+	@Autowired
+	private KeywordSQLFactory sqlFactory;// = new KeywordSQLFactory();
 	
 	@Override
 	public UUID insertKeyword(String keyword) {

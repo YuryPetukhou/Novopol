@@ -1,18 +1,22 @@
 package lv.javaguru.novopol.logic.service.supplier.impl;
 
-import lv.javaguru.novopol.logic.api.supplier.AddSupplierRequest;
-import lv.javaguru.novopol.logic.api.supplier.AddSupplierResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import lv.javaguru.novopol.dal.dao.SupplierDAO;
 import lv.javaguru.novopol.logic.api.supplier.ListSuppliersRequest;
 import lv.javaguru.novopol.logic.api.supplier.ListSuppliersResponse;
-import lv.javaguru.novopol.logic.service.supplier.AddSupplierService;
 import lv.javaguru.novopol.logic.service.supplier.ListSuppliersService;
 
+@Component
 public class ListSuppliersServiceImpl implements ListSuppliersService {
 
+	@Autowired
+	private SupplierDAO dao;
+	
 	@Override
 	public ListSuppliersResponse getSuppliers(ListSuppliersRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ListSuppliersResponse(dao.getAllSuppliers());
 	}
 
 }

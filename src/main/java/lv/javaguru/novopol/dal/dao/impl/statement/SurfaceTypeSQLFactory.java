@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class SurfaceTypeSQLFactory extends SQLStatementFactory {
 	private static final String SQL_GET_SURFACE_TYPE_BY_ID = "SELECT id FROM public.surface_types WHERE type=?";
 	private static final String SQL_INSERT_SURFACE_TYPE = "INSERT INTO public.surface_types (id,created_dt, updated_dt, created_by,updated_by,type) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?) RETURNING id";

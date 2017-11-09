@@ -1,9 +1,17 @@
 package lv.javaguru.novopol;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import lv.javaguru.novopol.config.SpringAppConfig;
+
+
 public class main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		ApplicationContext applicationContext
+        = new AnnotationConfigApplicationContext(SpringAppConfig.class);
+
 
 	}
 

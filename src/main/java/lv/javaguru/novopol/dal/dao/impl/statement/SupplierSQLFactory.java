@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.domain.Supplier;
 
+@Component
 public class SupplierSQLFactory extends SQLStatementFactory {
 
 	private static final String SQL_GET_ALL_SUPPLIERS = "SELECT id,created_dt, updated_dt, created_by,updated_by,name,country,city,state,zipcode,street,house,office,phone,email,website,contact_person FROM public.suppliers ORDER BY created_dt DESC LIMIT ? OFFSET ?";

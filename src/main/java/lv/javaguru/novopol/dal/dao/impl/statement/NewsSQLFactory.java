@@ -8,8 +8,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.domain.News;
 
+@Component
 public class NewsSQLFactory extends SQLStatementFactory {
 	private static final String SQL_GET_ALL_NEWS = "SELECT id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author FROM public.news ORDER BY post_dt DESC LIMIT ? OFFSET ?";
 	private static final String SQL_INSERT_NEWS = "INSERT INTO public.news (id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content, abstract,source, author) VALUES (uuid_generate_v4(),now(),now(),'Auto','Auto',?,?,?,?,?,?) RETURNING id";

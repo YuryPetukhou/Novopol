@@ -1,14 +1,16 @@
 package lv.javaguru.novopol.logic.api.surfacetype;
 
-public class AddSurfaceTypeResponse {
-	private final String surfaceType;
+import java.util.UUID;
 
-	public AddSurfaceTypeResponse (String surfaceType) {
+public class AddSurfaceTypeResponse {
+	private final UUID surfaceType;
+
+	public AddSurfaceTypeResponse (UUID surfaceType) {
 		super();
 		this.surfaceType = surfaceType;
 	}
 
-	public String getSupplier() {
+	public UUID getSupplier() {
 		return surfaceType;
 	}
 }

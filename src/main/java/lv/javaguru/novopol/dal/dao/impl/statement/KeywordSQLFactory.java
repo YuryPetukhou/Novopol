@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class KeywordSQLFactory extends SQLStatementFactory{
 
 	private static final String SQL_GET_KEYWORD_BY_ID = "SELECT id FROM public.keywords WHERE keyword=?";

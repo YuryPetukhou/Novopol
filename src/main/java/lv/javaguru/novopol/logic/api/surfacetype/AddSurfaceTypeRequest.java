@@ -10,7 +10,7 @@ public class AddSurfaceTypeRequest {
 		this.surfaceType = surfaceType;
 	}
 
-	public String getSupplier() {
+	public String getSurfaceType() {
 		return surfaceType;
 	}
 }

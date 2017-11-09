@@ -1,19 +1,18 @@
 package lv.javaguru.novopol.logic.service.producer.impl;
 
-import lv.javaguru.novopol.dal.dao.ArticleDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.dao.ProducerDAO;
-import lv.javaguru.novopol.dal.dao.impl.ArticleDAOImpl;
-import lv.javaguru.novopol.dal.dao.impl.ProducerDAOImpl;
-import lv.javaguru.novopol.logic.api.article.ListArticlesRequest;
-import lv.javaguru.novopol.logic.api.article.ListArticlesResponse;
 import lv.javaguru.novopol.logic.api.producer.ListProducersRequest;
 import lv.javaguru.novopol.logic.api.producer.ListProducersResponse;
 import lv.javaguru.novopol.logic.service.producer.ListProducersService;
 
+@Component
 public class ListProducersServiceImpl implements ListProducersService {
+	@Autowired
+	private ProducerDAO dao;
 
-private ProducerDAO dao = new ProducerDAOImpl();
-	
 	@Override
 	public ListProducersResponse getProducers(ListProducersRequest request) {
 		return new ListProducersResponse(dao.getAllProducers());

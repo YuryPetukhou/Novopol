@@ -8,15 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.SupplierDAO;
 import lv.javaguru.novopol.dal.dao.impl.statement.SupplierSQLFactory;
 import lv.javaguru.novopol.domain.Supplier;
 import lv.javaguru.novopol.domain.builder.SupplierBuilder;
 
+@Component
 public class SupplierDAOImpl extends DAOImpl implements SupplierDAO {
-
-	private SupplierSQLFactory sqlFactory = new SupplierSQLFactory();
+	@Autowired
+	private SupplierSQLFactory sqlFactory;// = new SupplierSQLFactory();
 
 	@Override
 	public Supplier addSupplier(Supplier supplier) {

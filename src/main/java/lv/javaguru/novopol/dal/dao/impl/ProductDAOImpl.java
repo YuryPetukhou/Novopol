@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import lv.javaguru.novopol.dal.DBException;
 import lv.javaguru.novopol.dal.dao.ProductDAO;
 import lv.javaguru.novopol.dal.dao.SurfaceTypeDAO;
@@ -22,9 +25,10 @@ import lv.javaguru.novopol.domain.builder.CollectionBuilder;
 import lv.javaguru.novopol.domain.builder.ProductBuilder;
 import lv.javaguru.novopol.domain.builder.SupplierBuilder;
 
+@Component
 public class ProductDAOImpl extends DAOImpl implements ProductDAO {
-
-	private ProductSQLFactory sqlFactory = new ProductSQLFactory();
+	@Autowired
+	private ProductSQLFactory sqlFactory;// = new ProductSQLFactory();
 
 	public ProductDAOImpl() {
 		super();
