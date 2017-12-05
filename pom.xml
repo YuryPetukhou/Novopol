@@ -5,6 +5,8 @@
 	<artifactId>novopol</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<packaging>war</packaging>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
 		<dependency>
@@ -18,6 +20,36 @@
 			<artifactId>spring-context</artifactId>
 			<version>5.0.0.RELEASE</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>2.2.1</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
+
+	<build>
+		<finalName>novopol</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<verbose>true</verbose>
+					<fork>true</fork>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
