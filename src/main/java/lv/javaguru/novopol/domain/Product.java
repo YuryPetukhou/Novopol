@@ -1,10 +1,13 @@
 package lv.javaguru.novopol.domain;
 
-import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-public class Product extends Entity {
-
-	private UUID id;
+@Entity
+@Table(name="public.items")
+public class Product extends DomainObject {
+	
+	
 	private int sizeOne;
 	private int sizeTwo;
 	private int sizeThree;
@@ -30,7 +33,6 @@ public class Product extends Entity {
 		result = prime * result + ((codeNumber == null) ? 0 : codeNumber.hashCode());
 		result = prime * result + ((collection == null) ? 0 : collection.hashCode());
 		result = prime * result + ((fullsizeImageUri == null) ? 0 : fullsizeImageUri.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(metersInPack);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -76,11 +78,7 @@ public class Product extends Entity {
 				return false;
 		} else if (!fullsizeImageUri.equals(other.fullsizeImageUri))
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
+	
 		if (Double.doubleToLongBits(metersInPack) != Double.doubleToLongBits(other.metersInPack))
 			return false;
 		if (name == null) {
@@ -132,7 +130,7 @@ public class Product extends Entity {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", sizeOne=" + sizeOne + ", sizeTwo=" + sizeTwo + ", sizeThree=" + sizeThree
+		return "Product [sizeOne=" + sizeOne + ", sizeTwo=" + sizeTwo + ", sizeThree=" + sizeThree
 				+ ", strengthGrade=" + strengthGrade + ", wearResistanceGrade=" + wearResistanceGrade + ", codeNumber="
 				+ codeNumber + ", name=" + name + ", priceDisplayed=" + priceDisplayed + ", priceReal=" + priceReal
 				+ ", numberInPack=" + numberInPack + ", metersInPack=" + metersInPack + ", collection=" + collection
@@ -279,12 +277,5 @@ public class Product extends Entity {
 		this.name = name;
 	}
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
 
 }

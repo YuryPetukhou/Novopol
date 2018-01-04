@@ -3,14 +3,32 @@ package lv.javaguru.novopol.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public abstract class Entity {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Version;
 
-	private UUID id;
-	private LocalDateTime createdDateTime;
-	private String createdBy;
-	private LocalDateTime updatedDateTime;
-	private String updatedBy;
+@Entity
+public abstract class DomainObject {
 	
+	@Id
+	@Column(name="id")
+	@GeneratedValue
+	private UUID id;
+	@Column(name="created_dt")
+	private LocalDateTime createdDateTime;
+	@Column(name="created_by")
+	private String createdBy;
+	@Column(name="updated_dt")
+	private LocalDateTime updatedDateTime;
+	@Column(name="updated_by")
+	private String updatedBy;
+	@Version
+	@Column(name="version")
+	private long version;
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -20,6 +38,7 @@ public abstract class Entity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((updatedBy == null) ? 0 : updatedBy.hashCode());
 		result = prime * result + ((updatedDateTime == null) ? 0 : updatedDateTime.hashCode());
+		result = prime * result + (int) (version ^ (version >>> 32));
 		return result;
 	}
 	@Override
@@ -30,7 +49,7 @@ public abstract class Entity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Entity other = (Entity) obj;
+		DomainObject other = (DomainObject) obj;
 		if (createdBy == null) {
 			if (other.createdBy != null)
 				return false;
@@ -56,7 +75,14 @@ public abstract class Entity {
 				return false;
 		} else if (!updatedDateTime.equals(other.updatedDateTime))
 			return false;
+		if (version != other.version)
+			return false;
 		return true;
+	}
+	@Override
+	public String toString() {
+		return "DomainObject [id=" + id + ", createdDateTime=" + createdDateTime + ", createdBy=" + createdBy
+				+ ", updatedDateTime=" + updatedDateTime + ", updatedBy=" + updatedBy + ", version=" + version + "]";
 	}
 	public UUID getId() {
 		return id;
@@ -88,5 +114,10 @@ public abstract class Entity {
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
 	}
-	
+	public long getVersion() {
+		return version;
+	}
+	public void setVersion(long version) {
+		this.version = version;
+	}	
 }

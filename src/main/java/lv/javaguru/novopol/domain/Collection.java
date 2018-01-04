@@ -1,10 +1,22 @@
 package lv.javaguru.novopol.domain;
 
-public class Collection extends Entity{
-	private String name;
-	private Producer producer;
-	private String description;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="public.collections")
+public class Collection extends DomainObject{
 	
+	@Column(name="name")
+	private String name;
+	
+	@Column(name="description")
+	private String description;
+	@Column
+	@OneToOne
+	private Producer producer;
 	public Collection() {
 	}
 

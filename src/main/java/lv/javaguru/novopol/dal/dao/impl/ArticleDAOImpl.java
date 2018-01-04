@@ -51,9 +51,9 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 		}
 
 		if (article.getKeywords() != null) {
-			for (String keyword : article.getKeywords()) {
-				insertKeywordLine(keyword, article);
-			}
+//			for (String keyword : article.getKeywords()) {
+//				insertKeywordLine(keyword, article);
+//			}
 		}
 
 		return article;
@@ -98,11 +98,11 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 		if (!removeIds.isEmpty()) {
 		removeArticleKeywords (article,removeIds);
 		}
-		List<String> newKeywordsList = new ArrayList<String>(article.getKeywords());
-		newKeywordsList.removeAll(keywordsMap.keySet());
-		for (String keyword : newKeywordsList) {
-			insertKeywordLine(keyword, article);
-		}
+//		List<String> newKeywordsList = new ArrayList<String>(article.getKeywords());
+//		newKeywordsList.removeAll(keywordsMap.keySet());
+//		for (String keyword : newKeywordsList) {
+//			insertKeywordLine(keyword, article);
+//		}
 		
 	}
 
@@ -173,7 +173,7 @@ public class ArticleDAOImpl extends DAOImpl implements ArticleDAO {
 				.withPostDate(postDateTime).withHeader(resultSet.getString(7)).withContent(resultSet.getString(8))
 				.withSummary(resultSet.getString(9)).withSource(resultSet.getString(10))
 				.withAuthor(resultSet.getString(11)).build();
-		article.setKeywords(getArticleKeywords(article));
+//		article.setKeywords(getArticleKeywords(article));
 		// id,created_dt, updated_dt, created_by,updated_by,post_dt,header, content,
 		// abstract,source, author
 		return article;

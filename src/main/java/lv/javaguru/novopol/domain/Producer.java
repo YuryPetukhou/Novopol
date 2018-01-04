@@ -1,18 +1,36 @@
 package lv.javaguru.novopol.domain;
 
-public class Producer extends Entity{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="public.producers")
+public class Producer extends DomainObject{
 	
+	@Column (name="name")
 	private String name;
+	@Column (name="country")
 	private String country;
+	@Column (name="state")
 	private String state;
+	@Column (name="city")
 	private String city;
+	@Column (name="zipcode")
 	private String zipcode;
+	@Column (name="street")
 	private String street;
+	@Column (name="house")
 	private String house;
+	@Column (name="office")
 	private String office;
+	@Column (name="phone")
 	private String phone;
+	@Column (name="email")
 	private String email;
+	@Column (name="website")
 	private String website;
+	@Column (name="contact_person")
 	private String contactPerson;
 	
 	public Producer() {

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import lv.javaguru.novopol.domain.Article;
+import lv.javaguru.novopol.domain.Keyword;
 
 public class ArticleBuilder {
 
@@ -14,7 +15,7 @@ public class ArticleBuilder {
 	private String summary;
 	private String source;
 	private LocalDateTime postDate;
-	private List<String> keywords;
+	private List<Keyword> keywords;
 	private UUID id;
 	private LocalDateTime createdDateTime;
 	private LocalDateTime updatedDateTime;
@@ -69,7 +70,7 @@ public class ArticleBuilder {
 		this.updatedBy = updatedBy;
 		return this;
 	}
-	public ArticleBuilder withKeywords(List<String> keywords) {
+	public ArticleBuilder withKeywords(List<Keyword> keywords) {
 		this.keywords = keywords;
 		return this;
 	}

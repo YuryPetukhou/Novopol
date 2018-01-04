@@ -3,14 +3,28 @@ package lv.javaguru.novopol.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class News extends Entity {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="public.news")
+public class News extends DomainObject {
+
+	@Column (name="content")
 	private String text;
+	@Column (name="header")
 	private String header;
+	@Column (name="author")
 	private String author;
+	@Column (name="abstract")
 	private String summary;
+	@Column (name="source")
 	private String source;
+	@Column (name="post_dt")
 	private LocalDateTime postDate;
+	@ManyToMany
 	private List<String> keywords;
 	
 	@Override

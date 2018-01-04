@@ -45,7 +45,7 @@ public class ArticlesDAOTest {
 		List<String> keywords = new ArrayList<String>();
 		keywords.add("Test keyword");
 		keywords.add("Test keyword2");
-		article.setKeywords(keywords);
+//		article.setKeywords(keywords);
 		dao.updateArticle(article);
 		Assert.assertNotNull(article.getId());
 	}
@@ -53,9 +53,9 @@ public class ArticlesDAOTest {
 	private Article createArticle() {
 		List<String> keywords = new ArrayList<String>();
 		keywords.add("Test keyword");
-		Article article = ArticleBuilder.createArticle().withAuthor("Viktor Pipiskin").withHeader("Dead header").withKeywords(keywords)
-				.withPostDate(LocalDateTime.now()).withSource("http://sb.by").withSummary("PIpipi").withContent("Not safe for work").build();
-		return article;
+//		Article article = ArticleBuilder.createArticle().withAuthor("Viktor Pipiskin").withHeader("Dead header").withKeywords(keywords)
+//				.withPostDate(LocalDateTime.now()).withSource("http://sb.by").withSummary("PIpipi").withContent("Not safe for work").build();
+		return null;
 	}
 
 	@Test

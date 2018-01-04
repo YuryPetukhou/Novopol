@@ -3,14 +3,28 @@ package lv.javaguru.novopol.domain;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Article extends Entity {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="public.article")
+public class Article extends DomainObject {
+	@Column (name="content")
 	private String text;
+	@Column (name="header")
 	private String header;
+	@Column (name="author")
 	private String author;
+	@Column (name="abstract")
 	private String summary;
+	@Column (name="source")
 	private String source;
+	@Column (name="post_dt")
 	private LocalDateTime postDate;
-	private List<String> keywords;
+	@ManyToMany
+	private List<Keyword> keywords;
 	
 	public Article () {
 	}
@@ -103,12 +117,6 @@ public class Article extends Entity {
 	public void setPostDate(LocalDateTime postDate) {
 		this.postDate = postDate;
 	}
-	public List<String> getKeywords() {
-		return keywords;
-	}
-	public void setKeywords(List<String> keywords) {
-		this.keywords = keywords;
-	}
 
 	public String getSource() {
 		return source;
@@ -116,5 +124,13 @@ public class Article extends Entity {
 
 	public void setSource(String source) {
 		this.source = source;
+	}
+
+	public List<Keyword> getKeywords() {
+		return keywords;
+	}
+
+	public void setKeywords(List<Keyword> keywords) {
+		this.keywords = keywords;
 	}
 }
